@@ -1,0 +1,828 @@
+<queries>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <demographicsQuery title="Population">
+            <axis1 name="region">region</axis1>
+            <axis2 name="Year">populationMiniCAM</axis2>
+            <xPath buildList="true" dataName="total-population" group="false" sumAll="false">demographics/populationMiniCAM/total-population/node()</xPath>
+            <comments/>
+         </demographicsQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <gdpQueryBuilder title="GDP MER">
+           <axis1 name="Region">region</axis1>
+           <axis2 name="Year">gdp-mer</axis2>
+           <xPath buildList="true" dataName="gdp-mer" group="false" sumAll="false">GDP/gdp-mer/text()</xPath>
+           <comments/>
+         </gdpQueryBuilder>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="ag commodity prices">
+            <axis1 name="sector">sector</axis1>
+            <axis2 name="Year">cost</axis2>
+            <xPath buildList="true" dataName="price" group="false" sumAll="false">*[@type='sector' and (local-name()='AgSupplySector')]/cost/text()</xPath>
+            <comments/>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+            <supplyDemandQuery title="meat and dairy prices">
+               <axis1 name="sector">sector</axis1>
+               <axis2 name="Year">cost</axis2>
+               <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and
+               (@name='Beef' or @name='SheepGoat' or @name='Pork' or @name='Dairy' or @name='Poultry')]/
+               cost/text()</xPath>
+               <comments/>
+            </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <query title="land_cover">
+           <axis1 name="LandLeaf">LandLeaf</axis1>
+           <axis2 name="Year">land-allocation[@year]</axis2>
+           <xPath buildList="true" dataName="land-allocation" group="false" sumAll="false">/LandNode[@name='root' or @type='LandNode' (: collapse :)]//land-allocation/text()</xPath>
+           <comments/>
+         </query>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="ag production by tech">
+           <axis1 name="technology">technology[@name]</axis1>
+           <axis2 name="Year">physical-output[@vintage]</axis2>
+           <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and (local-name()='AgSupplySector')]/
+            *[@type='subsector']/*[@type='technology']/
+            output-primary/physical-output/node()</xPath>
+            <comments/>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="harvests per year">
+           <axis1 name="technology">technology</axis1>
+           <axis2 name="Year">technology</axis2>
+           <xPath buildList="true" dataName="harvestsPerYear" group="false" sumAll="false">*[@type='sector' and (local-name()='AgSupplySector')]/
+            *[@type='subsector']/*[@type='technology']/harvestsPerYear/text()</xPath>
+            <comments/>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="ag tech yield">
+           <axis1 name="technology">technology</axis1>
+           <axis2 name="Year">technology</axis2>
+           <xPath buildList="true" dataName="yield" group="false" sumAll="false">*[@type='sector' and (local-name()='AgSupplySector')]/
+           *[@type='subsector']/*[@type='technology']/yield/text()</xPath>
+           <comments/>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="meat and dairy production by type">
+           <axis1 name="sector">sector</axis1>
+           <axis2 name="Year">physical-output[@vintage]</axis2>
+           <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and
+           (@name='Beef' or @name='SheepGoat' or @name='Pork' or @name='Dairy' or @name='Poultry')]//
+           *[@type='output']/physical-output/node()</xPath>
+           <comments/>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="feed consumption by animal commodity">
+           <axis1 name="sector">sector</axis1>
+           <axis2 name="Year">demand-physical[@vintage]</axis2>
+           <xPath buildList="true" dataName="input" group="false" sumAll="false">*[@type='sector' and
+               (@name='Beef' or @name='SheepGoat' or @name='Pork' or @name='Dairy' or @name='Poultry' )]//
+               *[@type='input' and not(@name='renewable') and not(contains(@name,'water_td'))]/
+               demand-physical/node()</xPath>
+               <comments></comments>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="demand balances by crop commodity">
+            <axis1 name="sector">sector</axis1>
+            <axis2 name="Year">demand-physical[@vintage]</axis2>
+            <xPath buildList="true" dataName="input" group="false" sumAll="false">*[@type='sector']//*[@type='input' and
+            (@name='Corn' or @name='FiberCrop' or @name='FodderGrass' or @name='FodderHerb'
+               or @name='MiscCrop' or @name='OilCrop' or @name='OtherGrain' or @name='PalmFruit'
+               or @name='Rice' or @name='Root_Tuber' or @name='SugarCrop' or @name='Wheat'
+               or @name='Forest' or @name='Pasture' or @name='regional corn' or @name='regional fibercrop'
+               or @name='regional misccrop' or @name='regional oilcrop' or @name='regional othergrain'
+               or @name='regional palmfruit' or @name='regional rice' or @name='regional root_tuber'
+               or @name='regional sugarcrop' or @name='regional wheat' or @name='Scavenging_Other_Rsrc')]/
+               demand-physical/node()</xPath>
+            <comments/>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="demand balances by animal commodity">
+            <axis1 name="sector">sector</axis1>
+            <axis2 name="Year">demand-physical[@vintage]</axis2>
+            <xPath buildList="true" dataName="input" group="false" sumAll="false">*[@type='sector']//*[@type='input' and
+            (@name='Beef' or @name='Dairy' or @name='Pork' or @name='Poultry'
+               or @name='SheepGoat' or @name='OtherMeat_Fish')]/
+               demand-physical/node()</xPath>
+            <comments/>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="imports">
+           <axis1 name="sector">sector</axis1>
+           <axis2 name="Year">physical-output[@vintage]</axis2>
+           <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector']/*[@type='subsector' and contains(@name,'mport')]//
+               *[@type='output']/physical-output/node()</xPath>
+               <comments></comments>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="exports">
+           <axis1 name="sector">sector</axis1>
+           <axis2 name="Year">physical-output[@vintage]</axis2>
+           <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and contains(@name,'traded') or contains(@name,'Exports_Meat')]/*[@type='subsector']//
+               *[@type='output']/physical-output/node()</xPath>
+               <comments></comments>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="fertilizer consumption by crop type">
+           <axis1 name="sector">sector</axis1>
+           <axis2 name="Year">demand-physical[@vintage]</axis2><xPath buildList="true" dataName="input" group="false" sumAll="false">*[@type='sector' and not (@name='Exports_N fertilizer')]//
+               *[@type='input' and (@name='N fertilizer')]/demand-physical/node()</xPath>
+           <comments/>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="irrigation water withdrawals by crop type">
+           <axis1 name="sector">sector</axis1>
+           <axis2 name="Year">demand-physical[@vintage]</axis2>
+           <xPath buildList="true" dataName="input" group="false" sumAll="false">*[@type='sector']//*[@type='input' (:collapse:) and contains(@name, 'water_td_irr') and ends-with(@name, '_W')]/
+               demand-physical/node()</xPath><comments/>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <supplyDemandQuery title="food consumption (Pcal)">
+           <axis1 name="technology">technology</axis1>
+           <axis2 name="Year">physical-output[@vintage]</axis2>
+           <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and (@name='FoodDemand_Crops' or @name='FoodDemand_Meat')]/
+            *[@type='subsector']/*[@type='technology']/
+            *[@type='output']/physical-output/node()</xPath>
+            <comments/>
+         </supplyDemandQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <emissionsQueryBuilder title="emissions by sector">
+           <axis1 name="GHG">GHG</axis1>
+           <axis2 name="Year">emissions</axis2>
+           <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector']//*[@type = 'GHG']/emissions/node()</xPath>
+           <comments/>
+         </emissionsQueryBuilder>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <marketQuery title="CO2 prices">
+           <axis1 name="market">market</axis1>
+           <axis2 name="Year">market</axis2>
+           <xPath buildList="true" dataName="price" group="false" sumAll="false">Marketplace/market[true() and contains(@name,'CO2')]/price/node()</xPath>
+           <comments/>
+         </marketQuery>
+      </aQuery>
+      <aQuery>
+         <region name="USA"/>
+         <region name="Canada" />
+         <region name="Japan" />
+         <region name="Australia_NZ" />
+         <region name="China" />
+         <region name="Middle East" />
+         <region name="Southeast Asia" />
+         <region name="India" />
+         <region name="Africa_Eastern" />
+         <region name="Africa_Northern" />
+         <region name="Africa_Southern" />
+         <region name="Africa_Western" />
+         <region name="Brazil" />
+         <region name="Central America and Caribbean" />
+         <region name="Central Asia" />
+         <region name="EU-12" />
+         <region name="EU-15" />
+         <region name="Europe_Eastern" />
+         <region name="Europe_Non_EU" />
+         <region name="European Free Trade Association" />
+         <region name="Indonesia" />
+         <region name="Mexico" />
+         <region name="Pakistan" />
+         <region name="Russia" />
+         <region name="South Africa" />
+         <region name="South America_Northern" />
+         <region name="South America_Southern" />
+         <region name="Argentina" />
+         <region name="Colombia" />
+         <region name="South Asia" />
+         <region name="South Korea" />
+         <region name="Taiwan" />
+         <query title="LUC emissions by region">
+            <axis1 name="LandLeaf">LandLeaf</axis1>
+            <axis2 name="Year">land-use-change-emission[@year]</axis2>
+            <xPath buildList="true" dataName="land-use-change-emission" group="false" sumAll="true">/LandNode[@name='root' or @type='LandNode' (:collapse:)]//
+                land-use-change-emission[@year&gt;2005]/text()</xPath><comments/></query>
+      </aQuery>
+</queries>
+

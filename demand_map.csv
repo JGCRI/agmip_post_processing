@@ -1,0 +1,12 @@
+sector,Var1,Var2
+FeedCrops,FEED,CONS
+FodderHerb_Residue,FEED,
+FoodDemand_Crops,FOOD,CONS
+NonFoodDemand_Crops,OTHU,CONS
+Pasture_FodderGrass,FEED,
+Scavenging_Other_Rsrc,FEED,
+regional corn for ethanol,OTHU,CONS
+regional sugar for ethanol,OTHU,CONS
+regional biomassOil,OTHU,CONS
+FoodDemand_Meat,FOOD,CONS
+NonFoodDemand_Meat,OTHU,CONS

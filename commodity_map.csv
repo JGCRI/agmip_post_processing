@@ -1,0 +1,29 @@
+GCAM_commodity,traded_commodity,regional_commodity,Item1,Item2,Item3,Item4
+Corn,traded corn,regional corn,CGR,,CRP,AGR
+FiberCrop,traded fibercrop,regional fibercrop,PFB,,CRP,AGR
+FodderGrass,,,GRS,,,AGR
+FodderHerb,,,OFD,,,AGR
+Fruits,traded fruits,regional fruits,VFN,VFN|FRU,CRP,AGR
+Legumes,traded legumes,regional legumes,VFN,,CRP,AGR
+MiscCrop,traded misccrop,regional misccrop,OCR,,CRP,AGR
+NutsSeeds,traded nuts_seeds,regional nuts_seeds,VFN,VFN|NUT,CRP,AGR
+OilCrop,traded oilcrop,regional oilcrop,OCR,,CRP,AGR
+OtherGrain,traded othergrain,regional othergrain,CGR,,CRP,AGR
+PalmFruit,traded palmfruit,regional palmfruit,OCR,,CRP,AGR
+Rice,traded rice,regional rice,RIC,,CRP,AGR
+RootTuber,traded root_tuber,regional root_tuber,VFN,,CRP,AGR
+Soybean,traded soybean,regional soybean,OSD,,CRP,AGR
+SugarCrop,traded sugarcrop,regional sugarcrop,SGC,,CRP,AGR
+Vegetables,traded vegetables,regional vegetables,VFN,VFN|VEG,CRP,AGR
+Wheat,traded wheat,regional wheat,WHT,,CRP,AGR
+biomass,traded biomass,total biomass,ECP,,,
+Forest,,,FOR,,,
+Beef,Exports_Meat Beef,,RUM,,LSP,AGR
+Dairy,Exports_Meat Dairy,,DRY,,LSP,AGR
+Pork,Exports_Meat Pork,,NRM,NRM|PRK,LSP,AGR
+Poultry,Exports_Meat Poultry,,NRM,NRM|PTM,LSP,AGR
+SheepGoat,Exports_Meat SheepGoat,,RUM,,LSP,AGR
+OtherMeat_Fish,,,FSH,,,
+Pasture,,,GRS,,,AGR
+Scavenging_Other_Rsrc,,,OFD,,,AGR
+Residue,,,OFD,,,AGR

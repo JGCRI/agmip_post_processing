@@ -1,0 +1,33 @@
+region,Region1,Region2,Region3
+USA,USA,NAM,WLD
+Africa_Eastern,SSA,AME,WLD
+Africa_Northern,MEN,AME,WLD
+Africa_Southern,SSA,AME,WLD
+Africa_Western,SSA,AME,WLD
+Australia_NZ,ANZ,,WLD
+Brazil,BRA,OAM,WLD
+Canada,CAN,NAM,WLD
+Central America and Caribbean,OSA,OAM,WLD
+Central Asia,FSU,,WLD
+China,CHN,SAS,WLD
+EU-12,EUR,,WLD
+EU-15,EUR,,WLD
+Europe_Eastern,FSU,,WLD
+Europe_Non_EU,MEN,AME,WLD
+European Free Trade Association,EUR,,WLD
+India,IND,SAS,WLD
+Indonesia,SEA,SAS,WLD
+Japan,SEA,SAS,WLD
+Mexico,OSA,OAM,WLD
+Middle East,MEN,AME,WLD
+Pakistan,OAS,SAS,WLD
+Russia,FSU,,WLD
+South Africa,SSA,AME,WLD
+South America_Northern,OSA,OAM,WLD
+South America_Southern,OSA,OAM,WLD
+South Asia,OAS,SAS,WLD
+South Korea,SEA,SAS,WLD
+Southeast Asia,SEA,SAS,WLD
+Taiwan,CHN,SAS,WLD
+Argentina,OSA,OAM,WLD
+Colombia,OSA,OAM,WLD

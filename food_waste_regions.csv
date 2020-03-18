@@ -1,0 +1,33 @@
+region,food_waste_region
+USA,AMR_w
+Africa_Eastern,AFR_w
+Africa_Northern,EMR_w
+Africa_Southern,AFR_w
+Africa_Western,AFR_w
+Australia_NZ,ACO_w
+Brazil,AMR_w
+Canada,AMR_w
+Central America and Caribbean,AMR_w
+Central Asia,EUR_w
+China,ASA_w
+EU-12,EUR_w
+EU-15,EUR_w
+Europe_Eastern,EUR_w
+Europe_Non_EU,EUR_w
+European Free Trade Association,EUR_w
+India,SEA_w
+Indonesia,SEA_w
+Japan,ACO_w
+Mexico,AMR_w
+Middle East,EMR_w
+Pakistan,EMR_w
+Russia,EUR_w
+South Africa,AFR_w
+South America_Northern,AMR_w
+South America_Southern,AMR_w
+South Asia,SEA_w
+South Korea,SEA_w
+Southeast Asia,SEA_w
+Taiwan,ASA_w
+Argentina,AMR_w
+Colombia,AMR_w
