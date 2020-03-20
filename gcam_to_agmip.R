@@ -1,4 +1,20 @@
 
+# USER-CONFIGURABLE ASSUMPTIONS AND FILE PATHS
+BUILD_MAIN_TEMPLATE <- FALSE
+BUILD_DIET_TEMPLATE <- TRUE
+
+# This script assumes that the main runs are on PIC and the diet runs are in a local database
+FILEPATH_TO_DIET_DB <- "/Users/d3p747/Documents/ObjECTS/stash/master/output/database_basexdb/"
+
+# Set the scenario names for the mitigation, no-mitigation, and diet scenarios
+NO_MITIG_SCENARIOS <- c("SSP1_NoMt_NoCC", "SSP2_NoMt_NoCC", "SSP3_NoMt_NoCC", "SSP1_NoMt_CC26", "SSP2_NoMt_CC26",
+                        "SSP3_NoMt_CC26", "SSP1_NoMt_CC85", "SSP2_NoMt_CC85", "SSP3_NoMt_CC85")
+MITIG_SCENARIOS <- c("SSP1_2p6_NoCC", "SSP1_2p6_CC26", "SSP2_2p6_NoCC", "SSP2_2p6_CC26", "SSP3_2p6_NoCC",
+                     "SSP3_2p6_CC26")
+MAIN_SCENARIOS <- c(NO_MITIG_SCENARIOS, MITIG_SCENARIOS)
+DIET_SCENARIOS <- c("SSP2_NoMt_NoCC", "SSP2_NoMt_NoCC_Diet_FlexA_WLD", "SSP2_NoMt_NoCC_Diet_FlexA_CHN",
+                    "SSP2_NoMt_NoCC_Diet_FlexA_EUR", "SSP2_NoMt_NoCC_Diet_FlexA_LAM", "SSP2_NoMt_NoCC_Diet_FlexA_USA")
+
 # Load necessary libraries to run the script
  #to get the rgcam package:
  #in the R console, key in:
@@ -61,7 +77,8 @@ conv_N2O_to_CO2e <- 298
 NAMES_TEMPLATE <- c("Model", "Scenario", "Region", "Item", "Variable",
                     "Year", "Unit", "Value")
 
-# Indicate which items to report for each variable (loosely based on the "Variables" sheet of the excel reporting template)
+# Indicate which items to report for each variable (loosely based on the "Variables" sheet of the excel workbook:
+# Reporting_template_AGMIP_2019_v0.xlsx)
 LAND_ITEMS <- c("CRP", "GRS", "ONV", "FOR", "NLD", "AGR", "ECP")
 HARVESTED_AREA_ITEMS <- c("RIC", "WHT", "CGR", "OSD", "SGC", "VFN", "VFN|VEG", "VFN|FRU", "VFN|NUT",
                           "PFB", "ECP", "OCR", "CRP", "AGR")
@@ -81,27 +98,34 @@ repeat_add_columns <- function(x, y) {
 }
 
 # DATA QUERYING
+# All data queried  will be placed into a single "project" file, whether queried remotely or locally, and whether for 
+# the main study or the diet study
 agmip_data.proj <- loadProject("agmip_data.proj")
 
-# QUERYING FROM PIC
-# First, open up the appropriate connection from constance
+# QUERYING FROM PIC - MAIN AGMIP SCENARIOS
+# First, open up the appropriate connection from constance, making note of the server in the session (constance01 or
+# constance03). To open the connection, run the following line from /people/d3p747/.
 # ./basex-server-helper.sh ./agmip-2020-runs/
 
-# Set the connection to either the mitigation or no-mitigation database
-#conn <- remoteDBConn("database_batchMitigxdb", "test", "test", "constance01")
-conn <- remoteDBConn("database_batchnoMitigxdb", "test", "test", "constance01")
-
-#scenarios <- c("SSP1_2p6_NoCC", "SSP1_2p6_CC26", "SSP2_2p6_NoCC", "SSP2_2p6_CC26", "SSP3_2p6_NoCC", "SSP3_2p6_CC26")
-scenarios <- c("SSP1_NoMt_NoCC", "SSP2_NoMt_NoCC", "SSP3_NoMt_NoCC", "SSP1_NoMt_CC26", "SSP2_NoMt_CC26", "SSP3_NoMt_CC26",
-               "SSP1_NoMt_CC85", "SSP2_NoMt_CC85", "SSP3_NoMt_CC85")
-for(scenario in scenarios){
-   agmip_data.proj <- addScenario(conn, agmip_data.proj, scenario, "BatchQueries_agmip.xml", clobber = FALSE)
+if(BUILD_MAIN_TEMPLATE){
+  conn <- remoteDBConn("database_batchnoMitigxdb", "test", "test", "constance01")
+  for(NoMt_scenario in NO_MITIG_SCENARIOS){
+    agmip_data.proj <- addScenario(conn, agmip_data.proj, NoMt_scenario, "BatchQueries_agmip.xml", clobber = FALSE)
+  }
+  
+  conn <- remoteDBConn("database_batchMitigxdb", "test", "test", "constance01")
+  for(Mt_scenario in MITIG_SCENARIOS){
+    agmip_data.proj <- addScenario(conn, agmip_data.proj, Mt_scenario, "BatchQueries_agmip.xml", clobber = FALSE)
+  }
 }
 
-# FROM A LOCAL DATABASE
-# agmip_data.proj <- addScenario("/Users/d3p747/Documents/ObjECTS/stash/master/output/database_basexdb/",
-#                                agmip_data.proj, "SSP1_2p6_CC26", "BatchQueries_agmip.xml", clobber = FALSE)
-   
+# FROM A LOCAL DATABASE - DIET SCENARIOS
+if(BUILD_DIET_TEMPLATE){
+  for(diet_scenario in DIET_SCENARIOS){
+    agmip_data.proj <- addScenario(FILEPATH_TO_DIET_DB, agmip_data.proj,
+                                   diet_scenario, "BatchQueries_agmip.xml", clobber = FALSE)
+  }
+}
    
 # DATA PROCESSING
 # Subset each table to only the relevant years, and re-name some columns for consistent capitalization with the final template
@@ -148,9 +172,7 @@ GDPT <- do.call(bind_rows, gdp) %>%
 # 3. LAND, AREA, ARIR, ARRF
 land <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`land_cover`)){
-    land[[i]] <- agmip_data.proj[[i]]$`land_cover`
-  }
+  land[[i]] <- agmip_data.proj[[i]]$`land_cover`
 }
 land_df <- do.call(bind_rows, land) %>%
   select(-Units) %>%
@@ -174,9 +196,7 @@ LAND <- left_join(land_df, land_map, by = c("GCAM_LUT")) %>%
 # harvested area - multiply land area by harvests per year
 harvested_area <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`harvests per year`)){
-    harvested_area[[i]] <- agmip_data.proj[[i]]$`harvests per year`
-  }
+  harvested_area[[i]] <- agmip_data.proj[[i]]$`harvests per year`
 }
 harvested_area_df <- do.call(bind_rows, harvested_area) %>%
   select(-Units) %>%
@@ -223,9 +243,7 @@ ARIR <- left_join(harvested_area_df, land_map, by = c("GCAM_LUT")) %>%
 # 4a. AG_PROD: crop production
 ag_prod <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`ag production by tech`)){
-    ag_prod[[i]] <- agmip_data.proj[[i]]$`ag production by tech`
-  }
+  ag_prod[[i]] <- agmip_data.proj[[i]]$`ag production by tech`
 }
 
 ag_prod_df <- do.call(bind_rows, ag_prod) %>%
@@ -276,9 +294,7 @@ AG_PROD_RF <- complete(AG_PROD_RF, nesting(Scenario, Region, Item),
 # 4b. AN_PROD: animal commodity production
 an_prod <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`meat and dairy production by type`)){
-    an_prod[[i]] <- agmip_data.proj[[i]]$`meat and dairy production by type`
-  }
+  an_prod[[i]] <- agmip_data.proj[[i]]$`meat and dairy production by type`
 }
 
 an_prod_df <- do.call(bind_rows, an_prod) %>%
@@ -306,9 +322,7 @@ PROD <- bind_rows(AG_PROD, AN_PROD) %>%
 # 5a. AG_XPRP: crop commodity prices
 ag_prices <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`ag commodity prices`)){
-    ag_prices[[i]] <- agmip_data.proj[[i]]$`ag commodity prices`
-  }
+  ag_prices[[i]] <- agmip_data.proj[[i]]$`ag commodity prices`
 }
 ag_prices_df <- do.call(bind_rows, ag_prices) %>%
   select(-Units)
@@ -336,9 +350,7 @@ AG_XPRP <- filter(ag_prod_df, Year == min(Year) |
 # 5b. AN_XPRP: animal commodity prices
 an_prices <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`meat and dairy prices`)){
-    an_prices[[i]] <- agmip_data.proj[[i]]$`meat and dairy prices`
-  }
+  an_prices[[i]] <- agmip_data.proj[[i]]$`meat and dairy prices`
 }
 an_prices_df <- do.call(bind_rows, an_prices)
 
@@ -397,9 +409,7 @@ YIRF <- left_join(ARRF, AG_PROD_RF, by = c("Scenario", "Region", "Item", "Year")
 # 7. YEXO: Exogenous yield assumptions over time multiplied by base-year production weights, aggregated
 yexo <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`ag tech yield`)){
-    yexo[[i]] <- agmip_data.proj[[i]]$`ag tech yield`
-  }
+  yexo[[i]] <- agmip_data.proj[[i]]$`ag tech yield`
 }
 yexo_df <- do.call(bind_rows, yexo) %>%
   mutate(value = if_else(sector == "biomass",
@@ -429,9 +439,7 @@ YEXO <- filter(harvested_area_df, Year == min(Year)) %>%
 # 8a. AG_DEMAND: crop uses
 ag_use <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`demand balances by crop commodity`)){
-    ag_use[[i]] <- agmip_data.proj[[i]]$`demand balances by crop commodity`
-  }
+  ag_use[[i]] <- agmip_data.proj[[i]]$`demand balances by crop commodity`
 }
 ag_use_df <- do.call(bind_rows, ag_use)
 
@@ -448,9 +456,7 @@ AG_DEMAND <- ag_use_df %>%
 # 8b. AN_DEMAND: animal commodity uses
 an_use <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`demand balances by animal commodity`)){
-    an_use[[i]] <- agmip_data.proj[[i]]$`demand balances by animal commodity`
-  }
+  an_use[[i]] <- agmip_data.proj[[i]]$`demand balances by animal commodity`
 }
 an_use_df <- do.call(bind_rows, an_use)
 
@@ -475,9 +481,7 @@ DEMAND <- bind_rows(AG_DEMAND, AN_DEMAND) %>%
 #9a. IMPO: imports
 imports <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`imports`)){
-    imports[[i]] <- agmip_data.proj[[i]]$`imports`
-  }
+  imports[[i]] <- agmip_data.proj[[i]]$`imports`
 }
 imports_df <- do.call(bind_rows, imports)
 
@@ -498,9 +502,7 @@ IMPO <- inner_join(imports_df, commodity_map, by = c(sector = "GCAM_commodity"))
 #9b. EXPO: exports
 exports <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`exports`)){
-    exports[[i]] <- agmip_data.proj[[i]]$`exports`
-  }
+  exports[[i]] <- agmip_data.proj[[i]]$`exports`
 }
 exports_df <- do.call(bind_rows, exports)
 
@@ -535,9 +537,7 @@ NETT <- left_join(EXPO, IMPO,
 # 10. FRTN: Fertilizer N inputs by crop type
 fertilizer <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`fertilizer consumption by crop type`)){
-    fertilizer[[i]] <- agmip_data.proj[[i]]$`fertilizer consumption by crop type`
-  }
+  fertilizer[[i]] <- agmip_data.proj[[i]]$`fertilizer consumption by crop type`
 }
 fertilizer_df <- do.call(bind_rows, fertilizer)
 
@@ -558,9 +558,7 @@ FRTN <- left_join(fertilizer_df, commodity_map, by = c(sector = "GCAM_commodity"
 # 11. WATR: Irrigation water inputs by crop type
 water <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`irrigation water withdrawals by crop type`)){
-    water[[i]] <- agmip_data.proj[[i]]$`irrigation water withdrawals by crop type`
-  }
+  water[[i]] <- agmip_data.proj[[i]]$`irrigation water withdrawals by crop type`
 }
 water_df <- do.call(bind_rows, water)
 
@@ -581,9 +579,7 @@ WATR <- left_join(water_df, commodity_map, by = c(sector = "GCAM_commodity")) %>
 # 12. CALO, CALI: Calorie availability, calorie intake
 calories <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`food consumption (Pcal)`)){
-    calories[[i]] <- agmip_data.proj[[i]]$`food consumption (Pcal)`
-  }
+  calories[[i]] <- agmip_data.proj[[i]]$`food consumption (Pcal)`
 }
 calories_df <- do.call(bind_rows, calories)
 
@@ -620,17 +616,13 @@ CALI <- left_join(calories_df, commodity_map, by = c(subsector = "GCAM_commodity
 # 13. EMIS, ECO2, ECH4, EN2O: Emissions
 emissions <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`emissions by sector`)){
-    emissions[[i]] <- agmip_data.proj[[i]]$`emissions by sector`
-  }
+  emissions[[i]] <- agmip_data.proj[[i]]$`emissions by sector`
 }
 emissions_df <- do.call(bind_rows, emissions)
 
 luc_emissions <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`LUC emissions by region`)){
-    luc_emissions[[i]] <- agmip_data.proj[[i]]$`LUC emissions by region`
-  }
+  luc_emissions[[i]] <- agmip_data.proj[[i]]$`LUC emissions by region`
 }
 luc_emissions_df <- do.call(bind_rows, luc_emissions)
 
@@ -698,9 +690,7 @@ EMIS <- filter(emissions_df, ghg %in% c("CO2", "CH4", "N2O", "CH4_AGR", "CH4_AWB
 # 14. FEEF: feed conversion efficiency
 feed_inputs <- list()
 for(i in names(agmip_data.proj)){
-  if(!is.null(agmip_data.proj[[i]]$`feed consumption by animal commodity`)){
-    feed_inputs[[i]] <- agmip_data.proj[[i]]$`feed consumption by animal commodity`
-  }
+  feed_inputs[[i]] <- agmip_data.proj[[i]]$`feed consumption by animal commodity`
 }
 FEED_INPUTS <- do.call(bind_rows, feed_inputs) %>%
   left_join(region_map, by = "region") %>%
@@ -725,18 +715,20 @@ for(i in names(agmip_data.proj)){
 }
 CO2prices_df <- do.call(bind_rows, CO2prices)
 
-CTAX <- CO2prices_df %>%
-  select(Scenario, Year, value) %>%
-  complete(nesting(Year),
-           Scenario = unique(POPT$Scenario),
-           fill = list(value = 0)) %>%
-  repeat_add_columns(unique(region_map["Region"])) %>%
-  mutate(Value = value * conv_1990_2010_USD / conv_C_to_CO2,
-         Unit = "USD/tCO2e",
-         Model = "GCAM",
-         Variable = "CTAX",
-         Item = "TOT") %>%
-  select(NAMES_TEMPLATE)
+if(nrow(CO2prices_df) > 0){
+  CTAX <- CO2prices_df %>%
+    select(Scenario, Year, value) %>%
+    complete(nesting(Year),
+             Scenario = unique(POPT$Scenario),
+             fill = list(value = 0)) %>%
+    repeat_add_columns(unique(region_map["Region"])) %>%
+    mutate(Value = value * conv_1990_2010_USD / conv_C_to_CO2,
+           Unit = "USD/tCO2e",
+           Model = "GCAM",
+           Variable = "CTAX",
+           Item = "TOT") %>%
+    select(NAMES_TEMPLATE)
+}
 
 # 16. YECC: climate change shifter on crop yield
 # This is calculated as (YEXOcc / YEXOnocc) - 1
@@ -765,8 +757,15 @@ FINAL_TEMPLATE <- bind_rows(POPT, GDPT,
                             FRTN, WATR,
                             CALO, CALI,
                             EMIS, ECO2, ECH4, EN2O,
-                            FEEF,
-                            CTAX)
-write.csv(FINAL_TEMPLATE, paste0("GCAM_AgMIP_", datestamp, ".csv"),
-          row.names = FALSE)
+                            FEEF)
+if(nrow(CO2prices_df) > 0) FINAL_TEMPLATE <- bind_rows(FINAL_TEMPLATE, CTAX)
 
+if(BUILD_MAIN_TEMPLATE){
+  FINAL_MAIN_TEMPLATE <- subset(FINAL_TEMPLATE, Scenario %in% MAIN_SCENARIOS)
+  write.csv(FINAL_MAIN_TEMPLATE, paste0("GCAM_AgMIP_", datestamp, ".csv"), row.names = FALSE)
+}
+
+if(BUILD_DIET_TEMPLATE){
+  FINAL_DIET_TEMPLATE <- subset(FINAL_TEMPLATE, Scenario %in% DIET_SCENARIOS)
+  write.csv(FINAL_DIET_TEMPLATE, paste0("GCAM_AgMIP_Diet_", datestamp, ".csv"), row.names = FALSE)
+}
