@@ -7,9 +7,9 @@ Fruits,VFN,VFN|FRU,CRP,AGR
 Legumes,VFN,,CRP,AGR
 MiscCrop,OCR,,CRP,AGR
 NutsSeeds,VFN,VFN|NUT,CRP,AGR
-OilCrop,OCR,,CRP,AGR
+OilCrop,OSD,,CRP,AGR
 OtherGrain,CGR,,CRP,AGR
-PalmFruit,OCR,,CRP,AGR
+PalmFruit,OSD,,CRP,AGR
 Rice,RIC,,CRP,AGR
 RootTuber,VFN,,CRP,AGR
 Soybean,OSD,,CRP,AGR

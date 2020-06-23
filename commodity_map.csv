@@ -7,9 +7,9 @@ Fruits,traded fruits,regional fruits,VFN,VFN|FRU,CRP,AGR
 Legumes,traded legumes,regional legumes,VFN,,CRP,AGR
 MiscCrop,traded misccrop,regional misccrop,OCR,,CRP,AGR
 NutsSeeds,traded nuts_seeds,regional nuts_seeds,VFN,VFN|NUT,CRP,AGR
-OilCrop,traded oilcrop,regional oilcrop,OCR,,CRP,AGR
+OilCrop,traded oilcrop,regional oilcrop,OSD,,CRP,AGR
 OtherGrain,traded othergrain,regional othergrain,CGR,,CRP,AGR
-PalmFruit,traded palmfruit,regional palmfruit,OCR,,CRP,AGR
+PalmFruit,traded palmfruit,regional palmfruit,OSD,,CRP,AGR
 Rice,traded rice,regional rice,RIC,,CRP,AGR
 RootTuber,traded root_tuber,regional root_tuber,VFN,,CRP,AGR
 Soybean,traded soybean,regional soybean,OSD,,CRP,AGR
