@@ -718,6 +718,7 @@ CO2prices_df <- do.call(bind_rows, CO2prices)
 if(nrow(CO2prices_df) > 0){
   CTAX <- CO2prices_df %>%
     select(Scenario, Year, value) %>%
+    distinct() %>%
     complete(nesting(Year),
              Scenario = unique(POPT$Scenario),
              fill = list(value = 0)) %>%
