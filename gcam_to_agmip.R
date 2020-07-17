@@ -89,6 +89,7 @@ HARVESTED_AREA_ITEMS <- c("RIC", "WHT", "CGR", "OSD", "SGC", "VFN", "VFN|VEG", "
                           "PFB", "ECP", "OCR", "CRP", "AGR")
 PROD_ITEMS <- c("RIC", "WHT", "CGR", "OSD", "SGC", "VFN", "VFN|VEG", "VFN|FRU", "VFN|NUT",
                 "PFB", "ECP", "OCR", "CRP", "RUM", "NRM", "NRM|PRK", "NRM|PTM", "DRY", "LSP", "FSH", "AGR", "GRS")
+YEXO_ITEMS_EXCLUDE <- "ECP"
 PRICE_ITEMS <- PROD_ITEMS[PROD_ITEMS != "GRS"]
 TRADE_ITEMS <- PRICE_ITEMS
 FRTN_ITEMS <- HARVESTED_AREA_ITEMS
@@ -110,7 +111,7 @@ agmip_data.proj <- loadProject("agmip_data.proj")
 # QUERYING FROM PIC - MAIN AGMIP SCENARIOS
 # First, open up the appropriate connection from constance, making note of the server in the session (constance01 or
 # constance03). To open the connection, run the following line from /people/d3p747/.
-# ./basex-server-helper.sh ./agmip-2020-runs/
+# ./basex-server-helper.sh ./agmip-2020-dbs/
 
 if(BUILD_MAIN_TEMPLATE){
   conn <- remoteDBConn("database_batchnoMitigxdb", "test", "test", "constance01")
@@ -436,6 +437,7 @@ YEXO <- filter(harvested_area_df, Year == min(Year)) %>%
   mutate(value.prod = value.area * value.yield) %>%
   left_join(commodity_map, by = c(sector = "GCAM_commodity")) %>%
   drop_na(Item) %>%
+  filter(!Item == YEXO_ITEMS_EXCLUDE) %>%
   left_join(region_map, by = "region") %>%
   group_by(Scenario, Region, Item, Year) %>%
   summarise(value.prod = sum(value.prod),
@@ -554,6 +556,7 @@ for(i in names(agmip_data.proj)){
 fertilizer_df <- do.call(bind_rows, fertilizer)
 
 FRTN <- left_join(fertilizer_df, commodity_map, by = c(sector = "GCAM_commodity")) %>%
+  drop_na(Item) %>%    #NAs show up for "Exports_fertilizer" sector
   left_join(region_map, by = "region") %>%
   group_by(Scenario, Region, Item, Year) %>%
   summarise(Value = sum(value) * conv_Mt_to_kt) %>%
