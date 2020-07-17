@@ -453,7 +453,7 @@
                or @name='Forest' or @name='Pasture' or @name='regional corn' or @name='regional fibercrop' or @name='regional fruits' or @name='regional legumes'
                or @name='regional misccrop' or @name='regional nuts_seeds' or @name='regional oilcrop' or @name='regional othergrain'
                or @name='regional palmfruit' or @name='regional rice' or @name='regional root_tuber' or @name='regional soybean'
-               or @name='regional sugarcrop' or @name='regional vegetables' or @name='regional wheat' or @name='Scavenging_Other_Rsrc')]/
+               or @name='regional sugarcrop' or @name='regional vegetables' or @name='regional wheat' or @name='Scavenging_Other_Rsrc' or @name='DDGS and feedcakes')]/
                demand-physical/node()</xPath>
             <comments/>
          </supplyDemandQuery>

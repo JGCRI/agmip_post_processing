@@ -760,6 +760,59 @@ YECC <- left_join(YECC_numerator, YECC_denominator,
          Unit = "%") %>%
   select(NAMES_TEMPLATE)
 
+# Feed shares
+ag_feed_shares <- subset(ag_use_df, sector %in% c("FeedCrops", "FodderHerb_Residue", "Pasture_FodderGrass")) %>%
+  group_by(Scenario, region, sector, Year) %>%
+  mutate(share = value / sum(value)) %>%
+  ungroup() %>%
+  select(Scenario, region, sector, input, Year, share)
+  
+FEED_INPUTS_BYCROP <- do.call(bind_rows, feed_inputs) %>%
+  rename(feed_class = input) %>%
+  left_join(ag_feed_shares, by = c("Scenario", "region", feed_class = "sector", "Year")) %>%
+  mutate(input = if_else(feed_class == "Scavenging_Other", "Scavenging_Other_Rsrc", input),
+         share = if_else(feed_class == "Scavenging_Other", 1, share),
+         value = value * share) %>%
+  select(Scenario, region, sector, input, Year, value)
+
+# FRUM: Feed use by ruminant meat animals
+FRUM <- left_join(FEED_INPUTS_BYCROP, commodity_map, by = c(sector = "GCAM_commodity")) %>%
+  filter(Item == "RUM") %>%
+  select(-Item) %>%
+  left_join(commodity_map, by = c(input = "GCAM_commodity")) %>%
+  left_join(region_map, by = "region") %>%
+  group_by(Scenario, Region, Item, Year) %>%
+  summarise(Value = sum(value)) %>%
+  ungroup() %>%
+  mutate(Model = "GCAM",
+         Variable = "FRUM",
+         Unit = "1000 t")
+
+# FDRY: Feed use by dairy animals
+FDRY <- left_join(FEED_INPUTS_BYCROP, commodity_map, by = c(sector = "GCAM_commodity")) %>%
+  filter(Item == "DRY") %>%
+  select(-Item) %>%
+  left_join(commodity_map, by = c(input = "GCAM_commodity")) %>%
+  left_join(region_map, by = "region") %>%
+  group_by(Scenario, Region, Item, Year) %>%
+  summarise(Value = sum(value)) %>%
+  ungroup() %>%
+  mutate(Model = "GCAM",
+         Variable = "FDRY",
+         Unit = "1000 t")
+
+# FNRM: feed use by non-ruminant animals (pork, poultry)
+FNRM <- left_join(FEED_INPUTS_BYCROP, commodity_map, by = c(sector = "GCAM_commodity")) %>%
+  filter(Item == "NRM") %>%
+  select(-Item) %>%
+  left_join(commodity_map, by = c(input = "GCAM_commodity")) %>%
+  left_join(region_map, by = "region") %>%
+  group_by(Scenario, Region, Item, Year) %>%
+  summarise(Value = sum(value)) %>%
+  ungroup() %>%
+  mutate(Model = "GCAM",
+         Variable = "FNRM",
+         Unit = "1000 t")
 
 # FINAL STEP: bind all individual components to form the template
 datestamp <- gsub("-", "_", Sys.Date())
@@ -773,7 +826,7 @@ FINAL_TEMPLATE <- bind_rows(POPT, GDPT,
                             FRTN, WATR,
                             CALO, CALI,
                             EMIS, ECO2, ECH4, EN2O,
-                            FEEF)
+                            FEEF, FRUM, FDRY, FNRM)
 if(nrow(CO2prices_df) > 0) FINAL_TEMPLATE <- bind_rows(FINAL_TEMPLATE, CTAX)
 
 if(BUILD_MAIN_TEMPLATE){
