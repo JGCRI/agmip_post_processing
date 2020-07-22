@@ -104,7 +104,7 @@ repeat_add_columns <- function(x, y) {
 }
 
 # DATA QUERYING
-# All data queried  will be placed into a single "project" file, whether queried remotely or locally, and whether for 
+# All data queried  will be placed into a single "project" file, whether queried remotely or locally, and whether for
 # the main study or the diet study
 agmip_data.proj <- loadProject("agmip_data.proj")
 
@@ -118,7 +118,7 @@ if(BUILD_MAIN_TEMPLATE){
   for(NoMt_scenario in NO_MITIG_SCENARIOS){
     agmip_data.proj <- addScenario(conn, agmip_data.proj, NoMt_scenario, "BatchQueries_agmip.xml", clobber = FALSE)
   }
-  
+
   conn <- remoteDBConn("database_batchMitigxdb", "test", "test", "constance01")
   for(Mt_scenario in MITIG_SCENARIOS){
     agmip_data.proj <- addScenario(conn, agmip_data.proj, Mt_scenario, "BatchQueries_agmip.xml", clobber = FALSE)
@@ -127,16 +127,22 @@ if(BUILD_MAIN_TEMPLATE){
 
 # FROM A LOCAL DATABASE - DIET SCENARIOS
 if(BUILD_DIET_TEMPLATE){
+#  for(diet_scenario in DIET_SCENARIOS){
+#    agmip_data.proj <- addScenario(FILEPATH_TO_DIET_DB, agmip_data.proj,
+#                                   diet_scenario, "BatchQueries_agmip.xml", clobber = FALSE)
+#  }
+  conn <- remoteDBConn("database_agmip_diet", "test", "test", "constance01")
   for(diet_scenario in DIET_SCENARIOS){
-    agmip_data.proj <- addScenario(FILEPATH_TO_DIET_DB, agmip_data.proj,
+    agmip_data.proj <- addScenario(conn, agmip_data.proj,
                                    diet_scenario, "BatchQueries_agmip.xml", clobber = FALSE)
   }
 }
-   
+
 if(BUILD_MITIGDECOMP_TEMPLATE){
-  conn <- remoteDBConn("database_batchMitigDecompxdb", "test", "test", "constance01")
+  # These scenarios are written to separate databases
   for(MtD_scenario in MITIG_DECOMP_SCENARIOS){
-    agmip_data.proj <- addScenario(conn, agmip_data.proj, MtD_scenario, "BatchQueries_agmip.xml", clobber = FALSE)
+    conn <- remoteDBConn(paste0("database_MitigDecomp_", MtD_scenario), "test", "test", "constance01")
+    agmip_data.proj <- addScenario(conn, agmip_data.proj, c(), "BatchQueries_agmip.xml", clobber = FALSE)
   }
 }
 
@@ -191,7 +197,7 @@ land_df <- do.call(bind_rows, land) %>%
   select(-Units) %>%
   separate(landleaf, into = c("GCAM_LUT", "basin", "IRR_RFD", "MGMT_level"),
            remove = FALSE, fill = "right")
-  
+
 # join in the AgMIP regions and land use type categories
 # using left_join to expand the data from GCAM in order to meet all AgMIP reporting categories
 
@@ -329,7 +335,7 @@ PROD <- bind_rows(AG_PROD, AN_PROD) %>%
   summarise(Value = sum(Value)) %>%
   ungroup() %>%
   select(NAMES_TEMPLATE)
-  
+
 
 # 5. XPRP: producer prices, computed using base-year weights
 # 5a. AG_XPRP: crop commodity prices
@@ -393,7 +399,7 @@ XPRP <- bind_rows(AG_XPRP, AN_XPRP) %>%
          Variable = "XPRP",
          Unit = "USD/t") %>%
   select(NAMES_TEMPLATE)
-  
+
 # 6. YILD, YIRF, YIIR: yields, with rainfed and irrigated crop production disaggregated in separate tables
 YILD <- left_join(AREA, AG_PROD, by = c("Model", "Scenario", "Region", "Item", "Year"),
                   suffix = c(".area", ".prod")) %>%
@@ -448,7 +454,7 @@ YEXO <- filter(harvested_area_df, Year == min(Year)) %>%
          Unit = "t/ha",
          Value = value.prod / value.area * conv_kgm2_tha) %>%
   select(NAMES_TEMPLATE)
-  
+
 # 8. DEMAND: FOOD, FEED, OTHU (commodity disposition)
 # 8a. AG_DEMAND: crop uses
 ag_use <- list()
@@ -720,7 +726,7 @@ FEEF <- left_join(AN_PROD, FEED_INPUTS, by = c("Scenario", "Region", "Item", "Ye
          Variable = "FEEF",
          Unit = "kg prt/kg prt") %>%
   select(NAMES_TEMPLATE)
-  
+
 # 15. CTAX
 CO2prices <- list()
 for(i in names(agmip_data.proj)){
@@ -732,6 +738,7 @@ CO2prices_df <- do.call(bind_rows, CO2prices)
 
 if(nrow(CO2prices_df) > 0){
   CTAX <- CO2prices_df %>%
+    filter(!grepl("_LUC", market)) %>%
     select(Scenario, Year, value) %>%
     distinct() %>%
     complete(nesting(Year),
@@ -766,7 +773,7 @@ ag_feed_shares <- subset(ag_use_df, sector %in% c("FeedCrops", "FodderHerb_Resid
   mutate(share = value / sum(value)) %>%
   ungroup() %>%
   select(Scenario, region, sector, input, Year, share)
-  
+
 FEED_INPUTS_BYCROP <- do.call(bind_rows, feed_inputs) %>%
   rename(feed_class = input) %>%
   left_join(ag_feed_shares, by = c("Scenario", "region", feed_class = "sector", "Year")) %>%
