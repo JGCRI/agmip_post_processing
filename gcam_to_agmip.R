@@ -4,8 +4,8 @@ BUILD_MAIN_TEMPLATE <- FALSE
 BUILD_DIET_TEMPLATE <- FALSE
 BUILD_MITIGDECOMP_TEMPLATE <- TRUE
 
-# This script assumes that the main runs and mitig-decomp runs are on PIC and the diet runs are in a local database
-FILEPATH_TO_DIET_DB <- "/Users/d3p747/Documents/ObjECTS/stash/master/output/database_basexdb/"
+# Indicate whether to run queries on model databases stored on PIC (alternative is to use locally saved query output)
+QUERY_FROM_PIC <- FALSE
 
 # Set the scenario names for the mitigation, no-mitigation, and diet scenarios
 NO_MITIG_SCENARIOS <- c("SSP1_NoMt_NoCC", "SSP2_NoMt_NoCC", "SSP3_NoMt_NoCC", "SSP1_NoMt_CC26", "SSP2_NoMt_CC26",
@@ -13,7 +13,7 @@ NO_MITIG_SCENARIOS <- c("SSP1_NoMt_NoCC", "SSP2_NoMt_NoCC", "SSP3_NoMt_NoCC", "S
 MITIG_SCENARIOS <- c("SSP1_2p6_NoCC", "SSP1_2p6_CC26", "SSP2_2p6_NoCC", "SSP2_2p6_CC26", "SSP3_2p6_NoCC",
                      "SSP3_2p6_CC26")
 MAIN_SCENARIOS <- c(NO_MITIG_SCENARIOS, MITIG_SCENARIOS)
-DIET_SCENARIOS <- c("SSP2_NoMt_NoCC", "SSP2_NoMt_NoCC_Diet_FlexA_WLD", "SSP2_NoMt_NoCC_Diet_FlexA_CHN",
+DIET_SCENARIOS <- c("SSP2_NoMt_NoCC", "SSP2_NoMt_NoCC_Diet_FlexA_WLD", "SSP2_NoMt_NoCC_Diet_FlexA_CHN", "SSP2_NoMt_NoCC_Diet_FlexA_DEV",
                     "SSP2_NoMt_NoCC_Diet_FlexA_EUR", "SSP2_NoMt_NoCC_Diet_FlexA_LAM", "SSP2_NoMt_NoCC_Diet_FlexA_USA")
 MITIG_DECOMP_SCENARIOS <- c("SSP1_Baseline", "ModelB_SSP1_Mit_Full", "ModelB_SSP1_Mit_wNonCO2", "ModelB_SSP1_Mit_wBio",
                             "ModelB_SSP1_Mit_wAff", "SSP2_Baseline", "ModelB_SSP2_Mit_Full", "ModelB_SSP2_Mit_wNonCO2",
@@ -104,41 +104,37 @@ repeat_add_columns <- function(x, y) {
 }
 
 # DATA QUERYING
-# All data queried  will be placed into a single "project" file, whether queried remotely or locally, and whether for
+# All data queried will be placed into a single "project" file, whether queried remotely or locally, and whether for
 # the main study or the diet study
 agmip_data.proj <- loadProject("agmip_data.proj")
 
-# QUERYING FROM PIC - MAIN AGMIP SCENARIOS
+# QUERYING FROM PIC - AGMIP SCENARIOS
 # First, open up the appropriate connection from constance, making note of the server in the session (constance01 or
 # constance03). To open the connection, run the following line from /people/d3p747/.
 # ./basex-server-helper.sh ./agmip-2020-dbs/
 
-if(BUILD_MAIN_TEMPLATE){
-  conn <- remoteDBConn("database_batchnoMitigxdb", "test", "test", "constance01")
+if(BUILD_MAIN_TEMPLATE & QUERY_FROM_PIC){
   for(NoMt_scenario in NO_MITIG_SCENARIOS){
+    conn <- remoteDBConn(paste0("database_noMitig_", NoMt_scenario), "test", "test", "constance01")
     agmip_data.proj <- addScenario(conn, agmip_data.proj, NoMt_scenario, "BatchQueries_agmip.xml", clobber = FALSE)
   }
 
-  conn <- remoteDBConn("database_batchMitigxdb", "test", "test", "constance01")
   for(Mt_scenario in MITIG_SCENARIOS){
+    conn <- remoteDBConn(paste0("database_Mitig_", Mt_scenario), "test", "test", "constance01")
     agmip_data.proj <- addScenario(conn, agmip_data.proj, Mt_scenario, "BatchQueries_agmip.xml", clobber = FALSE)
   }
 }
 
 # FROM A LOCAL DATABASE - DIET SCENARIOS
-if(BUILD_DIET_TEMPLATE){
-#  for(diet_scenario in DIET_SCENARIOS){
-#    agmip_data.proj <- addScenario(FILEPATH_TO_DIET_DB, agmip_data.proj,
-#                                   diet_scenario, "BatchQueries_agmip.xml", clobber = FALSE)
-#  }
-  conn <- remoteDBConn("database_agmip_diet", "test", "test", "constance01")
+if(BUILD_DIET_TEMPLATE & QUERY_FROM_PIC){
   for(diet_scenario in DIET_SCENARIOS){
+    conn <- remoteDBConn(paste0("database_Diet_", diet_scenario), "test", "test", "constance01")
     agmip_data.proj <- addScenario(conn, agmip_data.proj,
                                    diet_scenario, "BatchQueries_agmip.xml", clobber = FALSE)
   }
 }
 
-if(BUILD_MITIGDECOMP_TEMPLATE){
+if(BUILD_MITIGDECOMP_TEMPLATE & QUERY_FROM_PIC){
   # These scenarios are written to separate databases
   for(MtD_scenario in MITIG_DECOMP_SCENARIOS){
     conn <- remoteDBConn(paste0("database_MitigDecomp_", MtD_scenario), "test", "test", "constance01")
