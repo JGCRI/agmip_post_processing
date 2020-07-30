@@ -818,7 +818,7 @@ FNRM <- left_join(FEED_INPUTS_BYCROP, commodity_map, by = c(sector = "GCAM_commo
          Unit = "1000 t")
 
 # FINAL STEP: bind all individual components to form the template
-datestamp <- gsub("-", "_", Sys.Date())
+datestamp <- format(Sys.time(), "%d%b%Y")
 FINAL_TEMPLATE <- bind_rows(POPT, GDPT,
                             LAND, AREA, ARRF, ARIR,
                             PROD,
@@ -834,15 +834,15 @@ if(nrow(CO2prices_df) > 0) FINAL_TEMPLATE <- bind_rows(FINAL_TEMPLATE, CTAX)
 
 if(BUILD_MAIN_TEMPLATE){
   FINAL_MAIN_TEMPLATE <- subset(FINAL_TEMPLATE, Scenario %in% MAIN_SCENARIOS)
-  write.csv(FINAL_MAIN_TEMPLATE, paste0("GCAM_AgMIP_", datestamp, ".csv"), row.names = FALSE)
+  write.csv(FINAL_MAIN_TEMPLATE, paste0("GCAM_CORE_ALL_", datestamp, ".csv"), row.names = FALSE)
 }
 
 if(BUILD_DIET_TEMPLATE){
   FINAL_DIET_TEMPLATE <- subset(FINAL_TEMPLATE, Scenario %in% DIET_SCENARIOS)
-  write.csv(FINAL_DIET_TEMPLATE, paste0("GCAM_AgMIP_Diet_", datestamp, ".csv"), row.names = FALSE)
+  write.csv(FINAL_DIET_TEMPLATE, paste0("GCAM_DIET_ALL_", datestamp, ".csv"), row.names = FALSE)
 }
 
 if(BUILD_MITIGDECOMP_TEMPLATE){
   FINAL_MITIGDECOMP_TEMPLATE <- subset(FINAL_TEMPLATE, Scenario %in% MITIG_DECOMP_SCENARIOS)
-  write.csv(FINAL_MITIGDECOMP_TEMPLATE, paste0("GCAM_AgMIP_MitigDecomp_", datestamp, ".csv"), row.names = FALSE)
+  write.csv(FINAL_MITIGDECOMP_TEMPLATE, paste0("GCAM_MITIGDECOMP_ALL_", datestamp, ".csv"), row.names = FALSE)
 }
